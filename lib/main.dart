@@ -32,12 +32,12 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Digichum Skillhub Assignment"),
+        title: const Text("Digichum Skillhub Assignment"),
         centerTitle: true,
       ),
       body: Center(
           child: ElevatedButton(
-              child: Text(
+              child: const Text(
                   "Assignment Page",
               ),
               onPressed: () => Navigator.of(context).pushNamed(FrontPage.routeName)

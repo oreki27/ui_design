@@ -1,13 +1,20 @@
+import 'package:counter/counter.dart';
 import 'package:flutter/material.dart';
 
 import './widgets/appbar_icon.dart';
+import 'widgets/daily_wear.dart';
 import 'widgets/widget1.dart';
 import 'widgets/widget2.dart';
 
-class FrontPage extends StatelessWidget {
+class FrontPage extends StatefulWidget {
   static const routeName = "/front-page";
-  const FrontPage({Key? key}) : super(key: key);
 
+  @override
+  State<FrontPage> createState() => _FrontPageState();
+}
+
+class _FrontPageState extends State<FrontPage> {
+  List<bool> _isOpen = [false,false,false];
   @override
   Widget build(BuildContext context) {
     List<bool> selected1 = [false,true,false,false];
@@ -76,19 +83,59 @@ class FrontPage extends StatelessWidget {
               ),
             ),
             Card(
-              child: Expanded(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: TextField(
-                        decoration: const InputDecoration(
-                          hintText: "Search your regular items here",
-                          border: OutlineInputBorder(),
+              margin: EdgeInsets.all(20),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    color: Colors.lightBlue,
+                    padding: const EdgeInsets.all(20),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        prefixIcon: const Icon(Icons.search),
+                        focusColor: Colors.white,
+                        hintText: "Search your regular items here",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(2000),
                         ),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+                  ExpansionPanelList(
+                    children: <ExpansionPanel>[
+                      ExpansionPanel(
+                          headerBuilder: (context, isOpen) => const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                                "Daily Wear",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          body: DailyWear(),
+                        isExpanded: _isOpen[0],
+                      ),
+                      ExpansionPanel(
+                        headerBuilder: (context, isOpen) => const Text("Ethnic Wear"),
+                        body: const Text("Ethnic Wear"),
+                        isExpanded: _isOpen[1],
+                      ),
+                      ExpansionPanel(
+                        headerBuilder: (context, isOpen) => const Text("Winter Wear"),
+                        body: const Text("Winter Wear"),
+                        isExpanded: _isOpen[2],
+                      ),
+                    ],
+                    expansionCallback: (i,isOpen) =>
+                        setState(() {
+                          _isOpen[i] = isOpen;
+                        }),
+                  ),
+                ],
               ),
             ),
           ],
@@ -97,3 +144,4 @@ class FrontPage extends StatelessWidget {
     );
   }
 }
+
